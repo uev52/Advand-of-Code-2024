@@ -1,12 +1,13 @@
 import sys
 sys.path.insert(0, '/Users/ethem/Documents/GitHub/Advand-of-Code-2024')
 
-from customLibrary import readFile, increaseDecrease, txtToList, stringToList, findValidDiffCount
+from customLibrary import readFile, increaseDecrease, txtToList, stringToList, findValidDiffCount, problemDampener
 
 # PART 1 ____________________________________________
 
 stringOfReports = txtToList('reports')
 listOfReports = []
+unsafeReports = []
 
 for report in stringOfReports:
     listReport = stringToList(report)
@@ -24,6 +25,9 @@ for report in listOfReports:
         onlyIncreasingOrDecreasing.append(report)
     if report == False:
         invalidIncreaseDecrease.append(counter)
+
+for index in invalidIncreaseDecrease:
+    unsafeReports.append(listOfReports[index])
 
 differanceList = []
 for report in onlyIncreasingOrDecreasing:
@@ -43,6 +47,15 @@ for report in onlyIncreasingOrDecreasing:
 
     differanceList.append(differanceReport)
 
-findValidDiffCount(differanceList)
+findValidDiffCount(differanceList,onlyIncreasingOrDecreasing)
 
 # PART 2________________________________________________
+
+
+
+#print(unsafeReports)
+
+#print(onlyIncreasingOrDecreasing)
+
+
+problemDampener(differanceList,onlyIncreasingOrDecreasing,invalidIncreaseDecrease)

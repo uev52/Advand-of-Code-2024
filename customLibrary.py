@@ -35,8 +35,9 @@ def increaseDecrease(report):
     else:
         return False
 
-def findValidDiffCount(reports):
+def findValidDiffCount(reports, onlyIncrease):
     checkedReports = []
+    unsafereports = []
     for report in reports:
         validatedReport = []
         for differance in report:
@@ -46,18 +47,42 @@ def findValidDiffCount(reports):
                 validatedReport.append(False)
         checkedReports.append(validatedReport)
     
-    safeReportCounter= 0 
+    safeReportCounter= 0
+    indexCounter = -1
+
     for report in checkedReports:
-        
+        indexCounter += 1
         if False in report:
-            safeReportCounter = safeReportCounter
+            unsafereports.append(onlyIncrease[indexCounter])
         else:
             safeReportCounter += 1
-            print(report)
+            
 
-    return print(safeReportCounter)
-
-     
+    return safeReportCounter, unsafereports
 
 
+def problemDampener(reports, onlyIncrease, invalidReports):
+    unsafeReports = findValidDiffCount(reports, onlyIncrease)
+    unsafeReports2 = []
+    for index in invalidReports:
+        unsafeReports2.append(onlyIncrease[index])
+
+    allUnsafeReports = unsafeReports[1]+ unsafeReports2
+
+    for report in allUnsafeReports:
+        indexCounter= 0
+        differanceReport = []
+        for level in report:
+            differance = int(report[indexCounter]) - int(report[indexCounter+1])
+        
+            
+            if differance < 0:
+                differance = differance * -1
+            
+            differanceReport.append(differance)
+
+            if indexCounter != len(report)-2:
+                indexCounter += 1
+
+        print(differanceReport)
 
