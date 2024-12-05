@@ -9,59 +9,53 @@ def readFile(fname):
     
     return content
 
+def txtToList(fname):
+    content = readFile(fname)
 
-def checkReportRules(report):
+    return content
+
+def stringToList(string):
+    dividers = [" ", ",","-",", "," ,"," -","- ","  "," - "," , "]
+    if type(string) != list:
+        for divider in dividers:
+            if divider in string:
+                myList = string.split(divider)
+    
+    return myList
+    
+
+def increaseDecrease(report):
     sameDirectionList = []
-    oneDirection = all(int(report[i]) < int(report[i+1]) for i in range(len(report) - 1)) or \
+    increaseOrDecrease = all(int(report[i]) < int(report[i+1]) for i in range(len(report) - 1)) or \
     all(int(report[i]) > int(report[i+1]) for i in range(len(report) - 1))
     
     
-    if oneDirection == True:
-        sameDirectionList.append(report)
+    if increaseOrDecrease == True:
+        return report
+    else:
+        return False
+
+def findValidDiffCount(reports):
+    checkedReports = []
+    for report in reports:
+        validatedReport = []
+        for differance in report:
+            if differance >0 and differance <=3:
+                validatedReport.append(True)
+            else:
+                validatedReport.append(False)
+        checkedReports.append(validatedReport)
     
-
-    print(sameDirectionList)
-    for report in sameDirectionList:
-        #print()
-        #print()
-        #print(report)
-        reportDifferance = []
-        for level in range(len(report)-1):
-            if level != len(report):
-                differance = int(report[level]) - int(report[level+1])
-                if differance < 0:
-                    differance = differance * -1
-
-                if differance < 1 or differance > 3:
-                    differance = 'unsafe'
-                
-                
-                reportDifferance.append(differance)
-
-
-        acceptableDifferance = [1,2,3]
-        #print("diff____")
+    safeReportCounter= 0 
+    for report in checkedReports:
         
-        with open("unsafe.txt","a") as file:
-            file.writelines(str(reportDifferance)+"\n")
+        if False in report:
+            safeReportCounter = safeReportCounter
+        else:
+            safeReportCounter += 1
+            print(report)
 
-
-    with open('unsafe.txt','r') as unsafefile:
-        unsafeReports = unsafefile.readlines()
-        oneWay = len(unsafeReports)
-        counter = 0
-        for item in unsafeReports:
-            test= item[1:-2].split(",")
-            
-
-            if "'unsafe'" in test:
-                counter = counter +1
-                
-    safeReports = oneWay - counter
-
-    return print(safeReports)
-        
-
+    return print(safeReportCounter)
 
      
 
